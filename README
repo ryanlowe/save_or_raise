@@ -1,0 +1,74 @@
+= save_or_raise
+
+  This plugin includes one new method for ActiveRecord::Base called
+  save_or_raise which does pretty much the same thing as
+  ActiveRecord::Base#save!
+  
+  == save() vs save!()
+  
+    The ActiveRecord::Base save() method returns true if the model save
+    is successful and false if it is not successful.  The save!() method
+    returns true if the model save is successful and raises an exception
+    if it is not successful.
+  
+  == utility
+  
+    The save() method is useful for control flow in cases where a failed
+    save can be handled gracefully:
+  
+      if model.save
+        ...
+      else
+        ...
+      end
+    
+    Sometimes the control flow (often in or called by a controller)
+    cannot handle an unsuccessful save.  There are a few ways to handle it:
+  
+      1. Do not branch on the save() call and ignore failures.
+      2. Throw an exception:
+    
+        raise "Save failed!" unless model.save
+      
+      3. Call save!() which does the same as 2
+      
+    The exception thrown by 2 and 3 will generate a 500 HTTP code for the user
+    in production but it will also notify an admin by email when used in combination
+    with a plugin like exception_notification.  The alternative situation generated
+    by 1 is possible data corruption and invalid application state.
+  
+  == The problem with save!
+  
+    ...is that is poorly named.  Ruby methods that end with an exclamation
+    point are a signal that they change the object they operate on.
+  
+    An irb example:
+  
+      >> a = " hello "
+      => " hello "
+      >> b = a.strip!
+      => "hello"
+      >> a
+      => "hello"
+    
+    The save! method does not change the ActiveRecord model it is called on.  Also
+    the name save! does not hint that it throws an exception in the failure case.
+  
+    Both of these things make the code that uses save! less readable.
+  
+  == A Solution
+  
+    This plugin implements a new ActiveRecord#Base method
+    
+      save_or_raise(raiseable=RecordNotSaved)
+  
+    which can be used the following ways:
+    
+      model.save_or_raise                   # instead of model.save!
+      model.save_or_raise "Save failed!"
+      model.save_or_raise CustomException
+      
+    In all three cases the raised exception presents a 500 HTTP error to
+    the user in production.
+    
+    The save! method remains untouched and can still be used.
