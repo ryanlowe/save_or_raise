@@ -1,13 +1,10 @@
-module ActiveRecord #:nodoc:
+class ActiveRecord::Base
   
-  module SaveOrRaise #:nodoc:
-    
-    def save_or_raise(raiseable = RecordNotSaved)
-      success = save
-      raise raiseable unless success
-      success
-    end
-    
+  def save_or_raise(raiseable = ActiveRecord::RecordNotSaved)
+    raiseable = ActiveRecord::RecordNotSaved if raiseable.nil?
+    success = save
+    raise raiseable unless success
+    success
   end
-
+  
 end
