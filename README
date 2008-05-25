@@ -22,8 +22,9 @@
         ...
       end
     
-    Sometimes the control flow (often in or called by a controller)
-    cannot handle an unsuccessful save.  There are a few ways to handle it:
+    Sometimes the control flow - often in or called by a controller -
+    cannot handle an unsuccessful save gracefully.  The programmer's
+    choices are:
   
       1. Do not branch on the save() call and ignore failures.
       2. Throw an exception:
@@ -35,7 +36,8 @@
     The exception thrown by 2 and 3 will generate a 500 HTTP code for the user
     in production but it will also notify an admin by email when used in combination
     with a plugin like exception_notification.  The alternative situation generated
-    by 1 is possible data corruption and invalid application state.
+    by 1 is possible data corruption and invalid application state. Doing 1 is just
+    not a good idea.
   
   == The problem with save!
   
