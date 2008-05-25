@@ -4,3 +4,5 @@ TIMELOG
 tmp/**/*
 db/*.sqlite3
 db/schema.rb
+spec.rb
+*.gem
