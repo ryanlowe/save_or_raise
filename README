@@ -1,8 +1,12 @@
 = save_or_raise
 
   This plugin includes one new method for ActiveRecord::Base called
-  save_or_raise which does almost the same thing as
-  ActiveRecord::Base#save!
+  save_or_raise which does almost the same thing as ActiveRecord::Base#save!
+  but in a more readable way.
+  
+  == Installation
+  
+    gem install ryanlowe-save_or_raise --source http://gems.github.com/
   
   == save vs save!
   
@@ -62,7 +66,7 @@
   
     Both of these things make the code that uses save! less readable.
   
-  == A Solution
+  == Solution
   
     This plugin implements a new ActiveRecord#Base method
     
@@ -70,9 +74,9 @@
   
     which can be used the following ways:
     
-      model.save_or_raise                   # instead of model.save!
-      model.save_or_raise "Save failed!"    # raises RuntimeError with this message on failure
-      model.save_or_raise CustomException   # raises CustomException on failure
+      model.save_or_raise                            # instead of model.save!
+      model.save_or_raise "Unrecoverable save error" # raises RuntimeError with this message on failure
+      model.save_or_raise CustomException            # raises CustomException on failure
       
     In all three cases the raised exception presents a 500 HTTP error to
     the user in production if the save fails.
