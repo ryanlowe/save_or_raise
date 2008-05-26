@@ -82,4 +82,17 @@
     the user in production if the save fails.
     
     The save! method remains untouched and can still be used.
+  
+  == Java Exceptions
+  
+    Java is the first programming language I used in production it and gave me the
+    idea for this plugin.
+  
+    The parallel idea in the Java universe is outlined in Item 40 of
+    Joshua Bloch's book Effective Java: "Use checked exceptions for recoverable
+    conditions and run-time exceptions for programming errors".
     
+    Java checked exceptions can be caught and handled gracefully and the program can
+    continue.  Java run-time (or unchecked) exceptions should not be caught by the
+    Java VM and allowed to bubble to the top of the call stack, where they will
+    make the program fail.
