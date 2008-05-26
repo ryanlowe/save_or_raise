@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "save_or_raise"
-  s.version = "0.1.1"
+  s.version = "0.1.2"
   s.date = "2008-05-25"
   s.summary = "A replacement for ActiveRecord::Base#save! for Ruby on Rails"
   s.email = "rails@ryanlowe.ca"
